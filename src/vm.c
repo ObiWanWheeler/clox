@@ -1,6 +1,7 @@
 #include "vm.h"
 #include "chunk.h"
 #include "common.h"
+#include "compiler.h"
 #include "debug.h"
 #include "value.h"
 #include <stdio.h>
@@ -28,8 +29,8 @@ static InterpretResult run() {
 #define READ_CONSTANT() (vm.chunk->constants.values[READ_BYTE()])
 #define BINARY_OP(op) \
   do { \
-    double left = pop(); \
     double right = pop(); \
+    double left = pop(); \
     push(left op right); \
   } while (false)
 
@@ -83,8 +84,7 @@ static InterpretResult run() {
 #undef READ_CONSTANT
 }
 
-InterpretResult interpret(Chunk *chunk) {
-  vm.chunk = chunk;
-  vm.pc = vm.chunk->code;
-  return run();
+InterpretResult interpret(const char *source) {
+  compile(source);
+  return INTERPRET_OK;
 }
