@@ -153,7 +153,7 @@ static Token consumeIdentifier() {
 }
 
 static void skipWhitespace() {
-  while (1) {
+  while (true) {
     switch (peek()) {
     case '\r':
     case '\t':
