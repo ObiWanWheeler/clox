@@ -17,7 +17,7 @@ static char advance() {
 }
 
 static char peek() { return *scanner.current; }
-static char peekNext() { return scanner.current[1]; }
+static char peekNext() { return *(scanner.current + 1); }
 
 static bool isAtEnd() { return *scanner.current == '\0'; }
 static int currentTokenLength() { return scanner.current - scanner.start; }
@@ -50,7 +50,7 @@ static bool matchNext(const char c) {
 
 static bool isDigit(char c) { return c >= '0' && c <= '9'; }
 static bool isAlpha(char c) {
-  return c >= ('a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
+  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 }
 
 static Token consumeStringLiteral() {
@@ -179,8 +179,8 @@ static void skipComment() {
 }
 
 Token scanToken() {
-  scanner.start = scanner.current;
   skipWhitespace();
+  scanner.start = scanner.current;
 
   if (isAtEnd())
     return makeToken(TOKEN_EOF);
